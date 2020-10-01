@@ -1,7 +1,20 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
-const connection = require("./db/connection");
+// const connection = require("./db/connection");
 
+// function doesInquirerWork() {
+//   inquirer
+//     .prompt({
+//       name: "test",
+//       type: "input",
+//       message: "Type something!",
+//     })
+//     .then((answer) => {
+//       console.log("Hello");
+//     });
+// }
+
+// doesInquirerWork();
 function questions() {
   inquirer
     .prompt({
@@ -24,7 +37,7 @@ function questions() {
       ],
     })
     .then((answer) => {
-      console.log("Got this far");
+      console.log(answer.menu);
       switch (answer.menu) {
         case "View All Employees":
           viewAllEmployees();
