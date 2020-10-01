@@ -1,14 +1,15 @@
 const mysql = require("mysql");
 const util = require("util");
+const secrets = require("./config");
 
 //setting up mySQL
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   // Replace "test" with your mySQL username
-  user: "root",
+  user: secrets.username,
   // Replace "password" with your mySQL password
-  password: "RFpd#2530",
+  password: secrets.password,
   database: "employee_trackerDB",
 });
 
