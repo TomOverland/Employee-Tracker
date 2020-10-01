@@ -1,20 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
-// const connection = require("./db/connection");
+const connection = require("./db/connection");
 
-// function doesInquirerWork() {
-//   inquirer
-//     .prompt({
-//       name: "test",
-//       type: "input",
-//       message: "Type something!",
-//     })
-//     .then((answer) => {
-//       console.log("Hello");
-//     });
-// }
-
-// doesInquirerWork();
 function questions() {
   inquirer
     .prompt({
