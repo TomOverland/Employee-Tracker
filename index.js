@@ -13,14 +13,14 @@ function questions() {
         "View All Employees",
         "View All Departments",
         // "View All Employees By Manager",
-        "View All Roles",
-        "Add Employee",
-        "Remove Employee",
-        "Add Role",
-        "Delete Role",
-        "Add Department",
-        "Delete Department",
-        "Update Employee Role",
+        "View All Roles", // Done
+        "Add Employee", // Done
+        "Remove Employee", // Done
+        "Add Role", // Done
+        // "Delete Role",
+        "Add Department", // Done
+        // "Delete Department",
+        "Update Employee Role", // Done
         // "Update Employee Manager",
       ],
     })
@@ -55,17 +55,19 @@ function questions() {
           addRole();
           break;
 
-        case "Delete Role":
-          deleteRole();
-          break;
+        // -- Bonus --
+        // case "Delete Role":
+        //   deleteRole();
+        //   break;
 
         case "Add Department":
           addDepartment();
           break;
 
-        case "Delete Department":
-          deleteDepartment();
-          break;
+        // -- Bonus --
+        // case "Delete Department":
+        //   deleteDepartment();
+        //   break;
 
         case "Update Employee Role":
           updateEmployeeRole();
@@ -160,6 +162,7 @@ function addEmployee() {
     });
 }
 
+// -- Bonus --
 function removeEmployee() {
   // TO DO: Make this a list to select an employee from an array.  Trying to remember an employee's ID number is difficult.
 
@@ -222,22 +225,40 @@ function addRole() {
     });
 }
 
-function deleteRole() {
-  console.log("This is where you would be able to remove roles");
-  questions();
-}
+// -- Bonus --
+// function deleteRole() {
+//   console.log("This is where you would be able to remove roles");
+//   questions();
+// }
 
 function addDepartment() {
-  console.log("This is where you would be able to add Departments");
-  questions();
+  inquirer
+    .prompt({
+      type: "input",
+      message: "What is the title of the department you would like to add?",
+      name: "newDepartment",
+    })
+    .then((answer) => {
+      connection.query(
+        "INSERT INTO department (name) VALUES (?)",
+        [answer.newDepartment],
+        function (err, res) {
+          if (err) throw err;
+          console.log("Department added successfully!");
+        }
+      );
+      questions();
+    });
 }
 
-function deleteDepartment() {
-  console.log("This is where you would be able to delete departments");
-  questions();
-}
+// -- Bonus --
+// function deleteDepartment() {
+//   console.log("This is where you would be able to delete departments");
+//   questions();
+// }
 
 function updateEmployeeRole() {
+  // TO DO: Update manager_id to reflect which supervisor oversees the new role.
   let employeeArr = [];
 
   connection.query("SELECT * FROM employee", function (err, res) {
