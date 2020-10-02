@@ -6,9 +6,7 @@ const secrets = require("./config");
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
-  // Replace "test" with your mySQL username
   user: secrets.username,
-  // Replace "password" with your mySQL password
   password: secrets.password,
   database: "employee_trackerDB",
 });
