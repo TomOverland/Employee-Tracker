@@ -11,9 +11,9 @@ function questions() {
       message: "Welcome to the Employee Tracker",
       choices: [
         "View All Employees",
-        "View All Employees By Department",
-        "View All Employees By Manager",
-        "View All Employees By Role",
+        "View All Departments",
+        // "View All Employees By Manager",
+        "View All Roles",
         "Add Employee",
         "Remove Empoyee",
         "Add Role",
@@ -25,22 +25,21 @@ function questions() {
       ],
     })
     .then((answer) => {
-      console.log(answer.menu);
       switch (answer.menu) {
         case "View All Employees":
           viewAllEmployees();
           break;
 
-        case "View All Employees By Department":
-          viewAllEmployeesByDepartment();
+        case "View All Departments":
+          viewAllDepartments();
           break;
 
-        case "View All Employees By Manager":
-          viewAllEmployeesByManager();
-          break;
+        // case "View All Employees By Manager":
+        //   viewAllEmployeesByManager();
+        //   break;
 
-        case "View All Employees By Role":
-          viewAllEmployeesByRole();
+        case "View All Roles":
+          viewAllRoles();
           break;
 
         case "Add Employee":
@@ -87,23 +86,30 @@ function viewAllEmployees() {
   });
 }
 
-function viewAllEmployeesByDepartment() {
-  console.log(
-    "This is where you'd be able to view all employees by department"
-  );
-  questions();
+function viewAllDepartments() {
+  const query = "SELECT * FROM department";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    questions();
+  });
 }
 
-function viewAllEmployeesByManager() {
-  console.log(
-    "This is where you'd be able to view all employees by department"
-  );
-  questions();
-}
+// -- Bonus --
+// function viewAllEmployeesByManager() {
+//   console.log(
+//     "This is where you'd be able to view all employees by department"
+//   );
+//   questions();
+// }
 
-function viewAllEmployeesByRole() {
-  console.log("This is where you would be able to view all employees by role");
-  questions();
+function viewAllRoles() {
+  const query = "SELECT * FROM role";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    questions();
+  });
 }
 
 function addEmployee() {
