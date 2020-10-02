@@ -21,7 +21,7 @@ function questions() {
         "Add Department",
         "Delete Department",
         "Update Employee Role",
-        "Update Employee Manager",
+        // "Update Employee Manager",
       ],
     })
     .then((answer) => {
@@ -34,6 +34,7 @@ function questions() {
           viewAllDepartments();
           break;
 
+        // -- Bonus --
         // case "View All Employees By Manager":
         //   viewAllEmployeesByManager();
         //   break;
@@ -70,9 +71,10 @@ function questions() {
           updateEmployeeRole();
           break;
 
-        case "Update Employee Manager":
-          updateEmployeeManager();
-          break;
+        // -- Bonus --
+        // case "Update Employee Manager":
+        //   updateEmployeeManager();
+        //   break;
       }
     });
 }
@@ -113,8 +115,47 @@ function viewAllRoles() {
 }
 
 function addEmployee() {
-  console.log("This is where you would be able to add an employee");
-  questions();
+  inquirer
+    .prompt([
+      {
+        name: "newFirstName",
+        type: "input",
+        message: "What's the new employee's first name?",
+      },
+      {
+        name: "newLastName",
+        type: "input",
+        message: "What's the new employee's last name?",
+      },
+      {
+        name: "newRoleID",
+        type: "input",
+        message:
+          "What's the new employee's role ID number? (1 Engineer) (2 Engineer Supervisor) (3 Sales Rep) (4 Sales Manager) (5 HR Coordinator) (6 HR Supervisor) (7 Tech Support) (8 IT Supervisor)",
+      },
+      {
+        name: "newManagerID",
+        type: "input",
+        message:
+          "What's the new employee's manager's ID? (1 Engineering Supervisor) (2 Marketing Supervisor) (3 HR Supervisor) (4 IT Supervisor)",
+      },
+    ])
+    .then((answer) => {
+      connection.query(
+        "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
+        [
+          answer.newFirstName,
+          answer.newLastName,
+          answer.newRoleID,
+          answer.newManagerID,
+        ]
+      ),
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+        };
+      questions();
+    });
 }
 
 function removeEmployee() {
@@ -151,8 +192,8 @@ function addRole() {
           if (err) throw err;
           console.table(res);
         };
+      questions();
     });
-  questions();
 }
 
 function deleteRole() {
@@ -175,12 +216,13 @@ function updateEmployeeRole() {
   questions();
 }
 
-function updateEmployeeManager() {
-  console.log(
-    "This is where you would be able to update an employee's manager"
-  );
-  questions();
-}
+// -- Bonus --
+// function updateEmployeeManager() {
+//   console.log(
+//     "This is where you would be able to update an employee's manager"
+//   );
+//   questions();
+// }
 
 function init() {
   questions();
