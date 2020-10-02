@@ -127,6 +127,7 @@ function addEmployee() {
         type: "input",
         message: "What's the new employee's last name?",
       },
+      // TO DO: Make this into a list with a switch/case.  The (# Role) is too bulky on the Command Line.  Assign a var to manager ID depending on the role?
       {
         name: "newRoleID",
         type: "input",
@@ -137,7 +138,7 @@ function addEmployee() {
         name: "newManagerID",
         type: "input",
         message:
-          "What's the new employee's manager's ID? (1 Engineering Supervisor) (2 Marketing Supervisor) (3 HR Supervisor) (4 IT Supervisor)",
+          "What's the new employee's manager's ID? (1 Engineering Supervisor) (2 Sales Supervisor) (3 HR Supervisor) (4 IT Supervisor)",
       },
     ])
     .then((answer) => {
@@ -160,6 +161,8 @@ function addEmployee() {
 }
 
 function removeEmployee() {
+  // TO DO: Make this a list to select an employee from an array.  Trying to remember an employee's ID number is difficult.
+
   // Displays list of all employees first so you will be able to find the ID of the one you would like to remove.
   // let query = "SELECT * FROM employee";
   // connection
@@ -235,8 +238,61 @@ function deleteDepartment() {
 }
 
 function updateEmployeeRole() {
-  console.log("This is where you would be able to update an employee's role");
-  questions();
+  let employeeArr = [];
+
+  connection.query("SELECT * FROM employee", function (err, res) {
+    for (let i = 0; i < res.length; i++) {
+      let employeeStr =
+        res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+      employeeArr.push(employeeStr);
+    }
+
+    inquirer
+      .prompt([
+        {
+          name: "updateRole",
+          type: "list",
+          message: "Select the employee whose role you would like to update.",
+          choices: employeeArr,
+        },
+        {
+          name: "newRole",
+          type: "list",
+          message: "Please select the employee's new role.",
+          choices: [
+            "Engineer",
+            "Engineering Supervisor",
+            "Sales Representative",
+            "Sales Manager",
+            "Human Resources Coordinator",
+            "Human Resources Supervisor",
+          ],
+        },
+      ])
+      .then((answer) => {
+        const updateID = {};
+        updateID.employeeID = parseInt(answer.updateRole.split(" ")[0]);
+        if (answer.newRole === "Engineer") {
+          updateID.role_id = 1;
+        } else if (answer.newRole === "Engineering Supervisor") {
+          updateID.role_id = 2;
+        } else if (answer.newRole === "Sales Representative") {
+          updateID.role_id = 3;
+        } else if (answer.newRole === "Sales Manager") {
+          updateID.role_id = 4;
+        } else if (answer.newRole === "Human Resources Coordinator") {
+          updateID.role_id = 5;
+        } else if (answer.newRole === "Human Resources Supervisor") {
+          updateID.role_id = 6;
+        }
+        connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [
+          updateID.role_id,
+          updateID.employeeID,
+        ]);
+        console.log("Role successfully updated!");
+        questions();
+      });
+  });
 }
 
 // -- Bonus --
