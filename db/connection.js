@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
 connection.connect(function (err) {
   if (err) throw err;
   console.log("connected as ID " + connection.threadId);
-  connection.end();
+  //   connection.end(); // commented out, as I was getting an "Error: Cannot enqueue Query after invoking quit" when trying to view all employees.
 });
 
 // Setting up connection.query to use promises instead of callbacks

@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 const connection = require("./db/connection");
+const cTable = require("console.table");
 
 function questions() {
   inquirer
@@ -78,8 +79,12 @@ function questions() {
 }
 
 function viewAllEmployees() {
-  console.log("This is where you'd be able to view all employees");
-  questions();
+  const query = "SELECT * FROM employee";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    questions();
+  });
 }
 
 function viewAllEmployeesByDepartment() {
