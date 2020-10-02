@@ -15,7 +15,7 @@ function questions() {
         // "View All Employees By Manager",
         "View All Roles",
         "Add Employee",
-        "Remove Empoyee",
+        "Remove Employee",
         "Add Role",
         "Delete Role",
         "Add Department",
@@ -106,7 +106,7 @@ function viewAllDepartments() {
 // }
 
 function viewAllRoles() {
-  const query = "SELECT * FROM role";
+  let query = "SELECT * FROM role";
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
@@ -154,13 +154,36 @@ function addEmployee() {
           if (err) throw err;
           console.table(res);
         };
+      console.log("The employee has been added!");
       questions();
     });
 }
 
 function removeEmployee() {
-  console.log("This is where you would be able to remove an employee");
-  questions();
+  // Displays list of all employees first so you will be able to find the ID of the one you would like to remove.
+  // let query = "SELECT * FROM employee";
+  // connection
+  //   .query(query, function (err, res) {
+  //     if (err) throw err;
+  //     console.table(res);
+  //   })
+  inquirer
+    .prompt({
+      name: "removeEmployee",
+      type: "input",
+      message:
+        "Please enter the employee ID of the employee you would like to remove",
+    })
+    .then((answer) => {
+      let query = "DELETE FROM employee WHERE ?";
+      const deleteID = parseInt(answer.removeEmployee);
+
+      connection.query(query, { id: deleteID }, function (err, res) {
+        if (err) throw err;
+      });
+      console.log("Employee has been removed.");
+      questions();
+    });
 }
 
 function addRole() {
