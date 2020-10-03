@@ -19,7 +19,7 @@ function questions() {
         "Add Role", // Done
         "Delete Role",
         "Add Department", // Done
-        // "Delete Department",
+        "Delete Department",
         "Update Employee Role", // Done
         // "Update Employee Manager",
       ],
@@ -65,9 +65,9 @@ function questions() {
           break;
 
         // -- Bonus --
-        // case "Delete Department":
-        //   deleteDepartment();
-        //   break;
+        case "Delete Department":
+          deleteDepartment();
+          break;
 
         case "Update Employee Role":
           updateEmployeeRole();
@@ -276,10 +276,34 @@ function addDepartment() {
 }
 
 // -- Bonus --
-// function deleteDepartment() {
-//   console.log("This is where you would be able to delete departments");
-//   questions();
-// }
+function deleteDepartment() {
+  let departmentArr = [];
+
+  connection.query("SELECT * FROM department", function (err, res) {
+    for (let i = 0; i < res.length; i++) {
+      let departmentStr = res[i].id + " " + res[i].name;
+      departmentArr.push(departmentStr);
+    }
+    inquirer
+      .prompt({
+        name: "removeDepartment",
+        type: "list",
+        message: "Please select the department you would like to remove",
+        choices: departmentArr,
+      })
+      .then((answer) => {
+        const removeID = parseInt(answer.removeDepartment.split(" ")[0]);
+
+        let query = "DELETE FROM department WHERE ?";
+
+        connection.query(query, { id: removeID }, function (err, res) {
+          if (err) throw err;
+        });
+        console.log("Department has been removed.");
+        questions();
+      });
+  });
+}
 
 function updateEmployeeRole() {
   // TO DO: Update manager_id to reflect which supervisor oversees the new role.
