@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const mysql = require("mysql");
 const connection = require("./db/connection");
 const cTable = require("console.table");
+const { connect } = require("./db/connection");
 
 function questions() {
   inquirer
@@ -22,6 +23,7 @@ function questions() {
         "Delete Department",
         "Update Employee Role", // Done
         // "Update Employee Manager",
+        "Exit",
       ],
     })
     .then((answer) => {
@@ -77,6 +79,10 @@ function questions() {
         // case "Update Employee Manager":
         //   updateEmployeeManager();
         //   break;
+
+        case "Exit":
+          connection.end();
+          break;
       }
     });
 }
