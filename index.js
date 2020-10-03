@@ -162,34 +162,34 @@ function addEmployee() {
     });
 }
 
-// -- Bonus --
 function removeEmployee() {
-  // TO DO: Make this a list to select an employee from an array.  Trying to remember an employee's ID number is difficult.
+  let employeeArr = [];
 
-  // Displays list of all employees first so you will be able to find the ID of the one you would like to remove.
-  // let query = "SELECT * FROM employee";
-  // connection
-  //   .query(query, function (err, res) {
-  //     if (err) throw err;
-  //     console.table(res);
-  //   })
-  inquirer
-    .prompt({
-      name: "removeEmployee",
-      type: "input",
-      message:
-        "Please enter the employee ID of the employee you would like to remove",
-    })
-    .then((answer) => {
-      let query = "DELETE FROM employee WHERE ?";
-      const deleteID = parseInt(answer.removeEmployee);
+  connection.query("SELECT * FROM employee", function (err, res) {
+    for (let i = 0; i < res.length; i++) {
+      let employeeStr =
+        res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+      employeeArr.push(employeeStr);
+    }
+    inquirer
+      .prompt({
+        name: "removeEmployee",
+        type: "list",
+        message: "Please select the employee you would like to remove",
+        choices: employeeArr,
+      })
+      .then((answer) => {
+        const removeID = parseInt(answer.removeEmployee.split(" ")[0]);
 
-      connection.query(query, { id: deleteID }, function (err, res) {
-        if (err) throw err;
+        let query = "DELETE FROM employee WHERE ?";
+
+        connection.query(query, { id: removeID }, function (err, res) {
+          if (err) throw err;
+        });
+        console.log("Employee has been removed.");
+        questions();
       });
-      console.log("Employee has been removed.");
-      questions();
-    });
+  });
 }
 
 function addRole() {
