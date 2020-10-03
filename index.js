@@ -17,7 +17,7 @@ function questions() {
         "Add Employee", // Done
         "Remove Employee", // Done
         "Add Role", // Done
-        // "Delete Role",
+        "Delete Role",
         "Add Department", // Done
         // "Delete Department",
         "Update Employee Role", // Done
@@ -56,9 +56,9 @@ function questions() {
           break;
 
         // -- Bonus --
-        // case "Delete Role":
-        //   deleteRole();
-        //   break;
+        case "Delete Role":
+          deleteRole();
+          break;
 
         case "Add Department":
           addDepartment();
@@ -226,10 +226,34 @@ function addRole() {
 }
 
 // -- Bonus --
-// function deleteRole() {
-//   console.log("This is where you would be able to remove roles");
-//   questions();
-// }
+function deleteRole() {
+  let roleArr = [];
+
+  connection.query("SELECT * FROM role", function (err, res) {
+    for (let i = 0; i < res.length; i++) {
+      let roleStr = res[i].id + " " + res[i].title;
+      roleArr.push(roleStr);
+    }
+    inquirer
+      .prompt({
+        name: "removeRole",
+        type: "list",
+        message: "Please select the role you would like to remove",
+        choices: roleArr,
+      })
+      .then((answer) => {
+        const removeID = parseInt(answer.removeRole.split(" ")[0]);
+
+        let query = "DELETE FROM role WHERE ?";
+
+        connection.query(query, { id: removeID }, function (err, res) {
+          if (err) throw err;
+        });
+        console.log("Role has been removed.");
+        questions();
+      });
+  });
+}
 
 function addDepartment() {
   inquirer
