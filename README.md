@@ -1,6 +1,6 @@
 # Employee-Tracker
 
-![Screenshot of Application](https://github.com/TomOverland/Note-Taker/blob/master/public/assets/images/Note_Taker.JPG)
+![Demonstration of Application](https://github.com/TomOverland/Employee-Tracker/blob/master/Assets/employee-tracker.gif)
 
 ## Description:
 
