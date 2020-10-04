@@ -1,6 +1,6 @@
 # Employee-Tracker
 
-![Demonstration of Application](https://github.com/TomOverland/Employee-Tracker/blob/master/Assets/employee-tracker.gif)
+![Demonstration of Application](https://github.com/TomOverland/Employee-Tracker/blob/master/Assets/Employee-Tracker.gif)
 
 # Table of Contents
 
@@ -20,8 +20,8 @@ This command line application can view and manage the departments, roles, and em
 2.  Clone this repository into your computer.  
 3.  Open your command line application (examples: git bash, terminal), change directorys into the folder where you cloned this repository and run "npm init".  
 4.  Run "npm i" to install dependencies.  
-5.  Create a config.js file in your db file with your MySQL login info.  
-6.  Run "node index.js" and follow the prompts.  
+5.  Create a config.js file in your db file with your MySQL login info. There is an example config.js file in the repository.  
+6.  Run "node index.js" to begin the application.  
 
 ## Contributing:
 
@@ -37,6 +37,6 @@ This application was not developed with any tests.
 
 ## Questions:
 
-For more information about the Generator, please reach out to me via my [GitHub Profile](https://github.com/TomOverland).
+For more information about this application, please reach out to me via my [GitHub Profile](https://github.com/TomOverland).
 
 For any other questions, please send me an email at: thomas.c.overland@gmail.com.
