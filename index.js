@@ -181,15 +181,6 @@ function addEmployee() {
           newEmployee.roleID = parseInt(answer.newRoleID.split(" ")[0]);
           newEmployee.managerID = parseInt(answer.newManagerID.split(" ")[0]);
 
-          // const updateID = {};
-          // updateID.employeeID = parseInt(answer.updateRole.split(" ")[0]);
-          // updateID.newID = parseInt(answer.newRole.split(" ")[0]);
-
-          // connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [
-          //   updateID.newID,
-          //   updateID.employeeID,
-          // ]);
-
           connection.query(
             "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
             [
