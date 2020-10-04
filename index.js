@@ -74,7 +74,6 @@ function questions() {
           updateEmployeeRole();
           break;
 
-        // -- TO DO --
         case "Update Employee Manager":
           updateEmployeeManager();
           break;
