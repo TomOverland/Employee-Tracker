@@ -7,6 +7,7 @@
 - [Description](#description)
 - [Installation](#installation)
 - [Contributing](#contributing)
+- [License](#license)
 - [Tests](#tests)
 - [Questions](#questions)
 
@@ -26,6 +27,14 @@ This command line application can view and manage the departments, roles, and em
 ## Contributing:
 
 Everyone is welcome to contribute. Create a pull request with your changes and I will review it. Currently, I only have instructions written in English. Translations to other languages would be appreciated!
+
+## License:
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+For more information about the license, click the link below:
+
+- [License](https://opensource.org/licenses/)
 
 ## Tests:
 
