@@ -2,20 +2,26 @@
 
 ![Demonstration of Application](https://github.com/TomOverland/Employee-Tracker/blob/master/Assets/employee-tracker.gif)
 
+# Table of Contents
+
+- [Description](#description)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
+
 ## Description:
 
 This command line application can view and manage the departments, roles, and employees in a company.  
-I used the MySQL NPM package to connect to my MySQL database and preformed queries.  
-I used the InquirerJS NPM package to interact with the user via the command line.  
-I used the console.table NPM package to print MySQL rows to the console.
 
-## License:
+## Installation:
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-For more information about the license, click the link below:
-
-- [License](https://opensource.org/licenses/)
+1.  Make sure you have Node.js installed on your computer. Node.js download can be found [here](https://nodejs.org/en/).
+2.  Clone this repository into your computer.  
+3.  Open your command line application (examples: git bash, terminal), change directorys into the folder where you cloned this repository and run "npm init".  
+4.  Run "npm i" to install dependencies.  
+5.  Create a config.js file in your db file with your MySQL login info.  
+6.  Run "node index.js" and follow the prompts.  
 
 ## Contributing:
 
