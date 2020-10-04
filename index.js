@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const connection = require("./db/connection");
 const cTable = require("console.table");
 const { connect } = require("./db/connection");
+const figlet = require("figlet");
 
 function questions() {
   inquirer
@@ -478,4 +479,15 @@ function updateEmployeeManager() {
 //   )}
 // )}
 
-questions();
+figlet("Employee Tracker", function (err, data) {
+  if (err) {
+    console.log("Something went wrong...");
+    console.dir(err);
+    return;
+  }
+  console.log(data);
+});
+
+setTimeout(function () {
+  questions();
+}, 3000);
