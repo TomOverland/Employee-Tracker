@@ -21,7 +21,7 @@ This command line application can view and manage the departments, roles, and em
 2.  Clone this repository into your computer.  
 3.  Open your command line application (examples: git bash, terminal), change directorys into the folder where you cloned this repository and run "npm init".  
 4.  Run "npm i" to install dependencies.  
-5.  Create a config.js file in your db file with your MySQL login info. There is an example config.js file in the repository.  
+5.  Create a config.js file in your db folder with your MySQL login info. There is an example config.js file in the repository for reference.  
 6.  Run "node index.js" to begin the application.  
 
 ## Contributing:
