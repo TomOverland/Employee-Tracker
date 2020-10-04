@@ -232,36 +232,48 @@ function removeEmployee() {
 }
 
 function addRole() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        message: "What is the title of the role you would like to add?",
-        name: "newRole",
-      },
-      {
-        type: "input",
-        message: "What is the salary for this role?",
-        name: "newRoleSalary",
-      },
-      // Change this type to list once I create the department numbers; choices would be ((1) Engineering, (2) Human Resources, (3) Marketing, and so on).
-      {
-        type: "input",
-        message: "What is the department number?",
-        name: "departmentID",
-      },
-    ])
-    .then(function (answer) {
-      connection.query(
-        "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
-        [answer.newRole, answer.newRoleSalary, answer.departmentID]
-      ),
-        function (err, res) {
-          if (err) throw err;
-          console.table(res);
-        };
-      questions();
-    });
+  const departmentArr = [];
+
+  connection.query("SELECT * FROM department", function (err, res) {
+    for (let i = 0; i < res.length; i++) {
+      let departmentStr = res[i].id + " " + res[i].name;
+      departmentArr.push(departmentStr);
+    }
+
+    inquirer
+      .prompt([
+        {
+          name: "newRole",
+          type: "input",
+          message: "What is the title of the role you would like to add?",
+        },
+        {
+          name: "newRoleSalary",
+          type: "input",
+          message: "What is the salary for this role?",
+        },
+        {
+          name: "departmentID",
+          type: "list",
+          message: "Which department is the new role part of?",
+          choices: departmentArr,
+        },
+      ])
+      .then(function (answer) {
+        const newRole = {};
+        newRole.departmentID = parseInt(answer.departmentID.split(" ")[0]);
+
+        connection.query(
+          "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
+          [answer.newRole, answer.newRoleSalary, newRole.departmentID]
+        ),
+          function (err, res) {
+            if (err) throw err;
+          };
+        console.log("Role has been added!");
+        questions();
+      });
+  });
 }
 
 function deleteRole() {
@@ -306,9 +318,9 @@ function addDepartment() {
         [answer.newDepartment],
         function (err, res) {
           if (err) throw err;
-          console.log("Department added successfully!");
         }
       );
+      console.log("Department added successfully!");
       questions();
     });
 }
@@ -435,7 +447,7 @@ function updateEmployeeManager() {
   });
 }
 
-// function viewDepartmentBudget() {
+// function viewDepartmentBudget() {  // NOTES: Still working on this, not functioning yet.
 
 //   const departmentArr = [];
 //   connection.query("SELECT * FROM department", function (err, res) {
