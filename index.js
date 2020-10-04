@@ -2,7 +2,6 @@ const inquirer = require("inquirer");
 const mysql = require("mysql");
 const connection = require("./db/connection");
 const cTable = require("console.table");
-const { connect } = require("./db/connection");
 const figlet = require("figlet");
 
 function questions() {
@@ -113,7 +112,7 @@ function viewAllDepartments() {
 // -- TO DO --
 // function viewAllEmployeesByManager() {
 
-// const managerID = // This needs to be defined.  create array of employees, get employee name, and manager id, split the manager id.
+// const managerID; // Notes: This needs to be defined.  create array of employees, get employee name, and manager id, split the manager id.
 
 //  let query =  SELECT * FROM employees WHERE ?
 
