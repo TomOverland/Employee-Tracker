@@ -313,69 +313,86 @@ function deleteDepartment() {
 
 function updateEmployeeRole() {
   // TO DO: Update manager_id to reflect which supervisor oversees the new role.
-  let employeeArr = [];
-
-  connection.query("SELECT * FROM employee", function (err, res) {
+  let roleArr = [];
+  connection.query("SELECT * FROM role", function (err, res) {
     for (let i = 0; i < res.length; i++) {
-      let employeeStr =
-        res[i].id + " " + res[i].first_name + " " + res[i].last_name;
-      employeeArr.push(employeeStr);
+      let roleStr = res[i].id + " " + res[i].title;
+      roleArr.push(roleStr);
     }
 
-    inquirer
-      .prompt([
-        {
-          name: "updateRole",
-          type: "list",
-          message: "Select the employee whose role you would like to update.",
-          choices: employeeArr,
-        },
-        {
-          name: "newRole",
-          type: "list",
-          message: "Please select the employee's new role.",
-          choices: [
-            "Engineer",
-            "Engineering Supervisor",
-            "Sales Representative",
-            "Sales Manager",
-            "Human Resources Coordinator",
-            "Human Resources Supervisor",
-          ],
-        },
-      ])
-      .then((answer) => {
-        const updateID = {};
-        updateID.employeeID = parseInt(answer.updateRole.split(" ")[0]);
-        if (answer.newRole === "Engineer") {
-          updateID.role_id = 1;
-        } else if (answer.newRole === "Engineering Supervisor") {
-          updateID.role_id = 2;
-        } else if (answer.newRole === "Sales Representative") {
-          updateID.role_id = 3;
-        } else if (answer.newRole === "Sales Manager") {
-          updateID.role_id = 4;
-        } else if (answer.newRole === "Human Resources Coordinator") {
-          updateID.role_id = 5;
-        } else if (answer.newRole === "Human Resources Supervisor") {
-          updateID.role_id = 6;
-        }
-        connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [
-          updateID.role_id,
-          updateID.employeeID,
-        ]);
-        console.log("Role successfully updated!");
-        questions();
-      });
+    let employeeArr = [];
+    connection.query("SELECT * FROM employee", function (err, res) {
+      for (let i = 0; i < res.length; i++) {
+        let employeeStr =
+          res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+        employeeArr.push(employeeStr);
+      }
+
+      inquirer
+        .prompt([
+          {
+            name: "updateRole",
+            type: "list",
+            message: "Select the employee whose role you would like to update.",
+            choices: employeeArr,
+          },
+          {
+            name: "newRole",
+            type: "list",
+            message: "Please select the employee's new role.",
+            choices: roleArr,
+          },
+        ])
+        .then((answer) => {
+          const updateID = {};
+          updateID.employeeID = parseInt(answer.updateRole.split(" ")[0]);
+          updateID.newID = parseInt(answer.newRole.split(" ")[0]);
+
+          connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [
+            updateID.newID,
+            updateID.employeeID,
+          ]);
+          console.log("Role successfully updated!");
+          questions();
+        });
+    });
   });
 }
-
-// -- Bonus --
+// -- Bonus --  // TO DO: Still working on updating manager.
 // function updateEmployeeManager() {
-//   console.log(
-//     "This is where you would be able to update an employee's manager"
-//   );
-//   questions();
+//   let employeeArr = [];
+
+//   connection.query("SELECT * FROM employee", function (err, res) {
+//     for (let i = 0; i < res.length; i++) {
+//       let employeeStr =
+//         res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+//       employeeArr.push(employeeStr);
+//     }
+//     inquirer
+//       .prompt({
+//         name: "employee",
+//         type: "list",
+//         message: "Which employee needs a new manager?",
+//         choices: employeeArr,
+//       },
+//       {
+//         name: "manager",
+//         type: "list",
+//         message: "Who is the new manager for this employee?",
+//         choices: employeeArr
+//       })
+//       .then((answer) => {
+//         const employeeID = parseInt(answer.employee.split(" ")[0]);
+//         const managerID = parseInt(answer.manager.split(" ")[0]);
+//         let query = "UPDATE employee SET ? WHERE ?";
+
+//         connection.query(query, [{manager_id},{id: employeeID}], function (err, res) {
+//           if (err) throw err;
+//         });
+//         console.log("Employee manager has been updated.");
+//         questions();
+//       });
+//   });
 // }
 
 function init() {
