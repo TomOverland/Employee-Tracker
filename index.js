@@ -14,15 +14,16 @@ function questions() {
         "View All Employees",
         "View All Departments",
         // "View All Employees By Manager",
-        "View All Roles", // Done
-        "Add Employee", // Done
-        "Remove Employee", // Done
-        "Add Role", // Done
+        "View All Roles",
+        "Add Employee",
+        "Remove Employee",
+        "Add Role",
         "Delete Role",
-        "Add Department", // Done
+        "Add Department",
         "Delete Department",
-        "Update Employee Role", // Done
+        "Update Employee Role",
         // "Update Employee Manager",
+        // "View Department Budget"
         "Exit",
       ],
     })
@@ -36,7 +37,7 @@ function questions() {
           viewAllDepartments();
           break;
 
-        // -- Bonus --
+        // -- TO DO --
         // case "View All Employees By Manager":
         //   viewAllEmployeesByManager();
         //   break;
@@ -57,7 +58,6 @@ function questions() {
           addRole();
           break;
 
-        // -- Bonus --
         case "Delete Role":
           deleteRole();
           break;
@@ -66,7 +66,6 @@ function questions() {
           addDepartment();
           break;
 
-        // -- Bonus --
         case "Delete Department":
           deleteDepartment();
           break;
@@ -75,9 +74,14 @@ function questions() {
           updateEmployeeRole();
           break;
 
-        // -- Bonus --
+        // -- TO DO --
         // case "Update Employee Manager":
         //   updateEmployeeManager();
+        //   break;
+
+        // -- TO DO --
+        // case "View Department Budget":
+        //   viewDepartmentBudget();
         //   break;
 
         case "Exit":
@@ -105,7 +109,7 @@ function viewAllDepartments() {
   });
 }
 
-// -- Bonus --
+// -- TO DO --
 // function viewAllEmployeesByManager() {
 
 // const managerID = // This needs to be defined.  create array of employees, get employee name, and manager id, split the manager id.
@@ -239,7 +243,6 @@ function addRole() {
     });
 }
 
-// -- Bonus --
 function deleteRole() {
   let roleArr = [];
 
@@ -289,7 +292,6 @@ function addDepartment() {
     });
 }
 
-// -- Bonus --
 function deleteDepartment() {
   let departmentArr = [];
 
@@ -366,8 +368,8 @@ function updateEmployeeRole() {
     });
   });
 }
-// -- Bonus --  // TO DO: Still working on updating manager.
-// function updateEmployeeManager() {
+
+// function updateEmployeeManager() {  // TO DO: Still working on updating manager.
 //   let employeeArr = [];
 
 //   connection.query("SELECT * FROM employee", function (err, res) {
@@ -403,8 +405,35 @@ function updateEmployeeRole() {
 //   });
 // }
 
-function init() {
-  questions();
-}
+// function viewDepartmentBudget() {
 
-init();
+//   const departmentArr = [];
+//   connection.query("SELECT * FROM department", function (err, res) {
+//     for (let i = 0; i < res.length; i++) {
+//       let departmentStr =
+//         res[i].id + " " + res[i].name;
+
+//       departmentArr.push(departmentStr);
+//     }
+//     inquirer
+//       .prompt({
+//         name: "departmentBudget",
+//         type: "list",
+//         message: "Please select which department's budget you would like to view",
+//         choices: departmentArr,
+//       })
+//       .then((answer) => {
+//         const departmentID = parseInt(answer.departmentBudget.split(" ")[0]);
+
+//         let query = "SELECT * FROM role WHERE ?";
+
+//         connection.query(query, { department_id: departmentID }, function (err, res) {
+//           if (err) throw err;
+//           // Do the math function to add all the employee's salarys into one object.  Will need to get employee array likely, so a JOIN will be needed?
+//           console.log(`log out the total salary here`)
+//         });
+//       }
+//   )}
+// )}
+
+questions();
