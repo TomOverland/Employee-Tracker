@@ -1,6 +1,6 @@
 # Employee-Tracker
 
-![Demonstration of Application](https://github.com/TomOverland/Employee-Tracker/blob/master/Assets/Employee-Tracker.gif)
+![Demonstration of Application](https://github.com/TomOverland/Employee-Tracker/blob/master/Assets/employee-tracker.gif)
 
 # Table of Contents
 
