@@ -107,8 +107,16 @@ function viewAllDepartments() {
 
 // -- Bonus --
 // function viewAllEmployeesByManager() {
+
+// const managerID = // This needs to be defined.  create array of employees, get employee name, and manager id, split the manager id.
+
+//  let query =  SELECT * FROM employees WHERE ?
+
+// connection.query(query, { manager_id: managerID }, function (err, res) {
+//   if (err) throw err;
+// });
 //   console.log(
-//     "This is where you'd be able to view all employees by department"
+//     "This is where you'd be able to view all employees by manager"
 //   );
 //   questions();
 // }
