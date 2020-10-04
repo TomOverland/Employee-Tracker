@@ -22,7 +22,7 @@ function questions() {
         "Add Department",
         "Delete Department",
         "Update Employee Role",
-        // "Update Employee Manager",
+        "Update Employee Manager",
         // "View Department Budget"
         "Exit",
       ],
@@ -75,9 +75,9 @@ function questions() {
           break;
 
         // -- TO DO --
-        // case "Update Employee Manager":
-        //   updateEmployeeManager();
-        //   break;
+        case "Update Employee Manager":
+          updateEmployeeManager();
+          break;
 
         // -- TO DO --
         // case "View Department Budget":
@@ -369,41 +369,57 @@ function updateEmployeeRole() {
   });
 }
 
-// function updateEmployeeManager() {  // TO DO: Still working on updating manager.
-//   let employeeArr = [];
+function updateEmployeeManager() {
+  let employeeArr = [];
+  let managerArr = [];
 
-//   connection.query("SELECT * FROM employee", function (err, res) {
-//     for (let i = 0; i < res.length; i++) {
-//       let employeeStr =
-//         res[i].id + " " + res[i].first_name + " " + res[i].last_name;
-//       employeeArr.push(employeeStr);
-//     }
-//     inquirer
-//       .prompt({
-//         name: "employee",
-//         type: "list",
-//         message: "Which employee needs a new manager?",
-//         choices: employeeArr,
-//       },
-//       {
-//         name: "manager",
-//         type: "list",
-//         message: "Who is the new manager for this employee?",
-//         choices: employeeArr
-//       })
-//       .then((answer) => {
-//         const employeeID = parseInt(answer.employee.split(" ")[0]);
-//         const managerID = parseInt(answer.manager.split(" ")[0]);
-//         let query = "UPDATE employee SET ? WHERE ?";
+  // connection.query("SELECT * FROM employee", function (err, res) {
+  //   for (let i = 0; i < res.length; i++) {
+  //     let managerStr =
+  //       res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+  //     managerArr.push(managerStr);
+  //   }
 
-//         connection.query(query, [{manager_id},{id: employeeID}], function (err, res) {
-//           if (err) throw err;
-//         });
-//         console.log("Employee manager has been updated.");
-//         questions();
-//       });
-//   });
-// }
+  connection.query("SELECT * FROM employee", function (err, res) {
+    for (let i = 0; i < res.length; i++) {
+      let employeeStr =
+        res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+      employeeArr.push(employeeStr);
+      managerArr.push(employeeStr);
+    }
+    inquirer
+      .prompt([
+        {
+          name: "employee",
+          type: "list",
+          message: "Which employee needs a new manager?",
+          choices: employeeArr,
+        },
+        {
+          name: "manager",
+          type: "list",
+          message: "Who is the new manager for this employee?",
+          choices: managerArr,
+        },
+      ])
+      .then((answer) => {
+        const updateManager = {};
+        updateManager.employeeID = parseInt(answer.employee.split(" ")[0]);
+        updateManager.managerID = parseInt(answer.manager.split(" ")[0]);
+        let query = "UPDATE employee SET manager_id = ? WHERE id = ?";
+
+        connection.query(
+          query,
+          [updateManager.managerID, updateManager.employeeID],
+          function (err, res) {
+            if (err) throw err;
+          }
+        );
+        console.log("Employee manager has been updated.");
+        questions();
+      });
+  });
+}
 
 // function viewDepartmentBudget() {
 
