@@ -135,49 +135,79 @@ function viewAllRoles() {
 }
 
 function addEmployee() {
-  inquirer
-    .prompt([
-      {
-        name: "newFirstName",
-        type: "input",
-        message: "What's the new employee's first name?",
-      },
-      {
-        name: "newLastName",
-        type: "input",
-        message: "What's the new employee's last name?",
-      },
-      // TO DO: Make this into a list with a switch/case.  The (# Role) is too bulky on the Command Line.  Assign a var to manager ID depending on the role?
-      {
-        name: "newRoleID",
-        type: "input",
-        message:
-          "What's the new employee's role ID number? (1 Engineer) (2 Engineer Supervisor) (3 Sales Rep) (4 Sales Manager) (5 HR Coordinator) (6 HR Supervisor) (7 Tech Support) (8 IT Supervisor)",
-      },
-      {
-        name: "newManagerID",
-        type: "input",
-        message:
-          "What's the new employee's manager's ID? (1 Engineering Supervisor) (2 Sales Supervisor) (3 HR Supervisor) (4 IT Supervisor)",
-      },
-    ])
-    .then((answer) => {
-      connection.query(
-        "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
-        [
-          answer.newFirstName,
-          answer.newLastName,
-          answer.newRoleID,
-          answer.newManagerID,
-        ]
-      ),
-        function (err, res) {
-          if (err) throw err;
-          console.table(res);
-        };
-      console.log("The employee has been added!");
-      questions();
+  const roleArr = [];
+  const employeeArr = [];
+
+  connection.query("SELECT * FROM role", function (err, res) {
+    for (let i = 0; i < res.length; i++) {
+      let roleStr = res[i].id + " " + res[i].title;
+      roleArr.push(roleStr);
+    }
+
+    connection.query("SELECT * FROM employee", function (err, res) {
+      for (let i = 0; i < res.length; i++) {
+        let employeeStr =
+          res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+        employeeArr.push(employeeStr);
+      }
+
+      inquirer
+        .prompt([
+          {
+            name: "newFirstName",
+            type: "input",
+            message: "What's the new employee's first name?",
+          },
+          {
+            name: "newLastName",
+            type: "input",
+            message: "What's the new employee's last name?",
+          },
+          {
+            name: "newRoleID",
+            type: "list",
+            message: "What's the new employee's role?",
+            choices: roleArr,
+          },
+          {
+            name: "newManagerID",
+            type: "list",
+            message: "Who is the new employee's supervisor?",
+            choices: employeeArr,
+          },
+        ])
+        .then((answer) => {
+          const newEmployee = {};
+          newEmployee.roleID = parseInt(answer.newRoleID.split(" ")[0]);
+          newEmployee.managerID = parseInt(answer.newManagerID.split(" ")[0]);
+
+          // const updateID = {};
+          // updateID.employeeID = parseInt(answer.updateRole.split(" ")[0]);
+          // updateID.newID = parseInt(answer.newRole.split(" ")[0]);
+
+          // connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [
+          //   updateID.newID,
+          //   updateID.employeeID,
+          // ]);
+
+          connection.query(
+            "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
+            [
+              answer.newFirstName,
+              answer.newLastName,
+              newEmployee.roleID,
+              newEmployee.managerID,
+            ]
+          ),
+            function (err, res) {
+              if (err) throw err;
+              console.table(res);
+            };
+          console.log("The employee has been added!");
+          questions();
+        });
     });
+  });
 }
 
 function removeEmployee() {
@@ -372,13 +402,6 @@ function updateEmployeeRole() {
 function updateEmployeeManager() {
   let employeeArr = [];
   let managerArr = [];
-
-  // connection.query("SELECT * FROM employee", function (err, res) {
-  //   for (let i = 0; i < res.length; i++) {
-  //     let managerStr =
-  //       res[i].id + " " + res[i].first_name + " " + res[i].last_name;
-  //     managerArr.push(managerStr);
-  //   }
 
   connection.query("SELECT * FROM employee", function (err, res) {
     for (let i = 0; i < res.length; i++) {
