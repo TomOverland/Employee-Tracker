@@ -13,7 +13,7 @@ function questions() {
       choices: [
         "View All Employees",
         "View All Departments",
-        // "View All Employees By Manager",
+        "View All Employees By Manager",
         "View All Roles",
         "Add Employee",
         "Remove Employee",
@@ -37,10 +37,9 @@ function questions() {
           viewAllDepartments();
           break;
 
-        // -- TO DO --
-        // case "View All Employees By Manager":
-        //   viewAllEmployeesByManager();
-        //   break;
+        case "View All Employees By Manager":
+          viewAllEmployeesByManager();
+          break;
 
         case "View All Roles":
           viewAllRoles();
@@ -93,7 +92,6 @@ function questions() {
 function viewAllEmployees() {
   const query =
     "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary FROM employee, role WHERE role.id = employee.role_id";
-  // SELECT "employee.first_name, employee.last_name, role.title, role.salary FROM employee, role WHERE role.id = employee.role_id"
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
@@ -110,46 +108,45 @@ function viewAllDepartments() {
   });
 }
 
-// -- TO DO --
-// function viewAllEmployeesByManager() {
-//   const managerArr = [];
-//   let query = "SELECT * FROM employee WHERE manager_id = null";
+function viewAllEmployeesByManager() {
+  const managerArr = [];
+  let query =
+    "SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id FROM employee WHERE manager_id IS NULL";
 
-//   connection.query(query, function (err, res) {
-//     if (err) throw err;
+  connection.query(query, function (err, res) {
+    if (err) throw err;
 
-//     console.log(res);
-//     for (let i = 0; i < res.length; i++) {
-//       let managerStr =
-//         res[i].id + " " + res[i].first_name + " " + res[i].last_name;
-//       managerArr.push(managerStr);
-//     }
+    for (let i = 0; i < res.length; i++) {
+      let managerStr =
+        res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+      managerArr.push(managerStr);
+    }
 
-//     inquirer
-//       .prompt({
-//         name: "managerList",
-//         type: "list",
-//         message: "Please select a supervisor to view their employees.",
-//         choices: managerArr,
-//       })
-//       .then((answer) => {
-//         const employeeList = {};
-//         employeeList.managerID = parseInt(answer.managerList.split(" ")[0]);
+    inquirer
+      .prompt({
+        name: "managerList",
+        type: "list",
+        message: "Please select a supervisor to view their employees.",
+        choices: managerArr,
+      })
+      .then((answer) => {
+        const employeeList = {};
+        employeeList.managerID = parseInt(answer.managerList.split(" ")[0]);
 
-//         let query = "SELECT * FROM employees WHERE manager_id = ?";
+        let query = "SELECT * FROM employee WHERE ?";
 
-//         connection.query(
-//           query,
-//           { manager_id: employeeList.managerID },
-//           function (err, res) {
-//             if (err) throw err;
-//             console.table(res);
-//             questions();
-//           }
-//         );
-//       });
-//   });
-// }
+        connection.query(
+          query,
+          { manager_id: employeeList.managerID },
+          function (err, res) {
+            if (err) throw err;
+            console.table(res);
+            questions();
+          }
+        );
+      });
+  });
+}
 
 function viewAllRoles() {
   let query = "SELECT * FROM role";
