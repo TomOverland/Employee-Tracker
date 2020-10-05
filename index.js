@@ -23,7 +23,7 @@ function questions() {
         "Delete Department",
         "Update Employee Role",
         "Update Employee Manager",
-        // "View Department Budget"
+        "View Department Budget",
         "Exit",
       ],
     })
@@ -78,9 +78,9 @@ function questions() {
           break;
 
         // -- TO DO --
-        // case "View Department Budget":
-        //   viewDepartmentBudget();
-        //   break;
+        case "View Department Budget":
+          viewDepartmentBudget();
+          break;
 
         case "Exit":
           connection.end();
@@ -470,36 +470,16 @@ function updateEmployeeManager() {
   });
 }
 
-// function viewDepartmentBudget() {  // NOTES: Still working on this, not functioning yet.
+function viewDepartmentBudget() {
+  let query =
+    "SELECT department_id AS id, department.name AS department, SUM(salary) AS budget FROM role INNER JOIN department ON role.department_id GROUP BY role.department_id";
 
-//   const departmentArr = [];
-//   connection.query("SELECT * FROM department", function (err, res) {
-//     for (let i = 0; i < res.length; i++) {
-//       let departmentStr =
-//         res[i].id + " " + res[i].name;
-
-//       departmentArr.push(departmentStr);
-//     }
-//     inquirer
-//       .prompt({
-//         name: "departmentBudget",
-//         type: "list",
-//         message: "Please select which department's budget you would like to view",
-//         choices: departmentArr,
-//       })
-//       .then((answer) => {
-//         const departmentID = parseInt(answer.departmentBudget.split(" ")[0]);
-
-//         let query = "SELECT * FROM role WHERE ?";
-
-//         connection.query(query, { department_id: departmentID }, function (err, res) {
-//           if (err) throw err;
-//           // Do the math function to add all the employee's salarys into one object.  Will need to get employee array likely, so a JOIN will be needed?
-//           console.log(`log out the total salary here`)
-//         });
-//       }
-//   )}
-// )}
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    questions();
+  });
+}
 
 figlet("Employee Tracker", function (err, data) {
   if (err) {
