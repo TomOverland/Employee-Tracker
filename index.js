@@ -472,7 +472,7 @@ function updateEmployeeManager() {
 
 function viewDepartmentBudget() {
   let query =
-    "SELECT department_id AS id, department.name AS department, SUM(salary) AS budget FROM role INNER JOIN department ON role.department_id GROUP BY role.department_id";
+    "SELECT department.id AS id, department.name AS departments, SUM(salary) AS budget FROM role LEFT JOIN department ON role.department_id = department.id GROUP BY role.department_id";
 
   connection.query(query, function (err, res) {
     if (err) throw err;
