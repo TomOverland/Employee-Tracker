@@ -91,7 +91,9 @@ function questions() {
 }
 
 function viewAllEmployees() {
-  const query = "SELECT * FROM employee";
+  const query =
+    "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary FROM employee, role WHERE role.id = employee.role_id";
+  // SELECT "employee.first_name, employee.last_name, role.title, role.salary FROM employee, role WHERE role.id = employee.role_id"
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
@@ -110,18 +112,43 @@ function viewAllDepartments() {
 
 // -- TO DO --
 // function viewAllEmployeesByManager() {
+//   const managerArr = [];
+//   let query = "SELECT * FROM employee WHERE manager_id = null";
 
-// const managerID; // Notes: This needs to be defined.  create array of employees, get employee name, and manager id, split the manager id.
+//   connection.query(query, function (err, res) {
+//     if (err) throw err;
 
-//  let query =  SELECT * FROM employees WHERE ?
+//     console.log(res);
+//     for (let i = 0; i < res.length; i++) {
+//       let managerStr =
+//         res[i].id + " " + res[i].first_name + " " + res[i].last_name;
+//       managerArr.push(managerStr);
+//     }
 
-// connection.query(query, { manager_id: managerID }, function (err, res) {
-//   if (err) throw err;
-// });
-//   console.log(
-//     "This is where you'd be able to view all employees by manager"
-//   );
-//   questions();
+//     inquirer
+//       .prompt({
+//         name: "managerList",
+//         type: "list",
+//         message: "Please select a supervisor to view their employees.",
+//         choices: managerArr,
+//       })
+//       .then((answer) => {
+//         const employeeList = {};
+//         employeeList.managerID = parseInt(answer.managerList.split(" ")[0]);
+
+//         let query = "SELECT * FROM employees WHERE manager_id = ?";
+
+//         connection.query(
+//           query,
+//           { manager_id: employeeList.managerID },
+//           function (err, res) {
+//             if (err) throw err;
+//             console.table(res);
+//             questions();
+//           }
+//         );
+//       });
+//   });
 // }
 
 function viewAllRoles() {
